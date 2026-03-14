@@ -193,10 +193,14 @@ const ENGINE = (function () {
       core.style.top = cy + "px";
       ax += (cx - ax) * 0.12;
       ay += (cy - ay) * 0.12;
-      aura.style.left = ax + "px";
-      aura.style.top = ay + "px";
+      if (aura) {
+        aura.style.left = ax + "px";
+        aura.style.top = ay + "px";
+      }
 
-      tCtx.clearRect(0, 0, trail.width, trail.height);
+      if (trail.width && trail.height) {
+        tCtx.clearRect(0, 0, trail.width, trail.height);
+      }
       var now = Date.now();
       for (var i = 1; i < trailPts.length; i++) {
         var age = now - trailPts[i].t;
@@ -215,9 +219,7 @@ const ENGINE = (function () {
     }
     updateCursor();
 
-    var hovers = document.querySelectorAll(
-      "a,button,.mission-card,.story-step,.roster-card,.sk-card,.cert-card,.dojo-card,.sf-btn,.cf-btn,.htag,.scene-card,.panel-frame,.ally-chip"
-    );
+    var hovers = document.querySelectorAll("a,button,.proj-card,.sk-card,.cert-card,.dojo-card,.sf-btn,.cf-btn,.htag");
     [].forEach.call(hovers, function (el) {
       el.addEventListener("mouseenter", function () { core.classList.add("hover"); aura.classList.add("hover"); });
       el.addEventListener("mouseleave", function () { core.classList.remove("hover"); aura.classList.remove("hover"); });

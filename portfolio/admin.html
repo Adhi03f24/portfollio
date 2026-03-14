@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>ADHI03F24 — Admin Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root{--bg:#08081a;--bg2:#0d0d24;--bg3:#12123a;--crimson:#ff1744;--cyan:#00e5ff;--purple:#a855f7;--gold:#ffd700;--green:#00ff41;--red:#ff2246;--white:#e0e0f0;--gray:#555577;--dark:#2a2a44;--font-head:'Orbitron',sans-serif;--font-body:'Rajdhani',sans-serif;--font-mono:'Share Tech Mono',monospace}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:var(--font-body);background:var(--bg);color:var(--white);min-height:100vh}
+    a{color:var(--cyan);text-decoration:none}
+
+    .login-overlay{position:fixed;inset:0;z-index:10000;background:var(--bg);display:flex;align-items:center;justify-content:center}
+    .login-overlay.hidden{display:none}
+    .login-box{background:var(--bg2);border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:3rem;max-width:380px;width:90%;text-align:center}
+    .login-box h2{font-family:var(--font-head);color:var(--crimson);letter-spacing:.2em;margin-bottom:2rem;font-size:1rem}
+    .login-input{width:100%;padding:.8rem;background:var(--bg3);border:1px solid var(--dark);border-radius:3px;color:var(--white);font-family:var(--font-mono);font-size:1rem;margin-bottom:1rem;outline:none;text-align:center}
+    .login-input:focus{border-color:var(--crimson)}
+    .login-btn{width:100%;padding:.8rem;background:linear-gradient(135deg,var(--crimson),var(--purple));border:none;border-radius:3px;color:#fff;font-family:var(--font-head);font-size:.75rem;letter-spacing:.15em;cursor:pointer;font-weight:700}
+    .login-err{color:var(--red);font-size:.8rem;margin-top:.8rem;display:none}
+
+    .admin-wrap{display:flex;min-height:100vh}
+    .sidebar{width:250px;background:var(--bg2);border-right:1px solid rgba(255,255,255,.04);padding:1.5rem 0;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto}
+    .sidebar-logo{font-family:var(--font-head);font-size:.85rem;color:var(--crimson);text-align:center;padding:0 1.5rem 1.5rem;letter-spacing:.2em;border-bottom:1px solid rgba(255,255,255,.04);margin-bottom:.5rem}
+    .sidebar-nav a{display:flex;align-items:center;gap:.7rem;padding:.75rem 1.5rem;color:var(--gray);font-family:var(--font-head);font-size:.62rem;letter-spacing:.1em;transition:all .3s;border-left:3px solid transparent}
+    .sidebar-nav a:hover,.sidebar-nav a.active{color:var(--crimson);background:rgba(255,23,68,.03);border-left-color:var(--crimson)}
+    .sidebar-nav a i{width:18px;text-align:center;font-size:.85rem}
+
+    .main{flex:1;padding:2rem 2.5rem;overflow-y:auto}
+    .page{display:none}.page.active{display:block}
+    .page-title{font-family:var(--font-head);font-size:1.2rem;color:var(--crimson);letter-spacing:.12em;margin-bottom:1.5rem;padding-bottom:.8rem;border-bottom:1px solid rgba(255,255,255,.04)}
+
+    .card{background:var(--bg2);border:1px solid rgba(255,255,255,.04);border-radius:6px;padding:1.5rem;margin-bottom:1.2rem}
+    .card h3{font-family:var(--font-head);font-size:.75rem;color:var(--purple);letter-spacing:.1em;margin-bottom:1rem}
+
+    .fg{margin-bottom:1rem}
+    .fg label{display:block;font-family:var(--font-mono);font-size:.68rem;color:var(--gray);margin-bottom:.3rem;letter-spacing:.1em}
+    .fc{width:100%;padding:.65rem .9rem;background:var(--bg3);border:1px solid rgba(255,255,255,.06);border-radius:3px;color:var(--white);font-family:var(--font-body);font-size:.85rem;outline:none;transition:border-color .3s}
+    .fc:focus{border-color:var(--crimson)}
+    textarea.fc{min-height:90px;resize:vertical}
+    select.fc{cursor:pointer}
+    .fr{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+
+    .btn-a{padding:.5rem 1.2rem;border:none;border-radius:3px;font-family:var(--font-head);font-size:.62rem;letter-spacing:.1em;cursor:pointer;transition:all .3s}
+    .btn-s{background:var(--crimson);color:#fff}.btn-s:hover{box-shadow:0 0 15px rgba(255,23,68,.4)}
+    .btn-g{background:var(--green);color:#000}.btn-g:hover{box-shadow:0 0 15px rgba(0,255,65,.4)}
+    .btn-d{background:var(--red);color:#fff}.btn-d:hover{box-shadow:0 0 15px rgba(255,34,70,.4)}
+    .btn-r{background:var(--dark);color:var(--gray)}
+    .bg{display:flex;gap:.4rem;margin-top:.8rem;flex-wrap:wrap}
+
+    .il{display:grid;gap:.8rem}
+    .ie{background:var(--bg3);border:1px solid rgba(255,255,255,.04);border-radius:4px;padding:1rem;display:flex;justify-content:space-between;align-items:center;gap:.8rem}
+    .ie-info h4{font-family:var(--font-head);font-size:.78rem;color:var(--white);letter-spacing:.04em}
+    .ie-info p{font-size:.75rem;color:var(--gray);margin-top:.2rem}
+    .ie-actions{display:flex;gap:.4rem;flex-shrink:0}
+    .btn-sm{padding:.35rem .7rem;font-size:.55rem}
+
+    .toast{position:fixed;bottom:2rem;right:2rem;padding:.8rem 1.8rem;background:var(--green);color:#000;font-family:var(--font-head);font-size:.72rem;letter-spacing:.1em;border-radius:4px;transform:translateY(80px);opacity:0;transition:all .4s;z-index:99999}
+    .toast.show{transform:translateY(0);opacity:1}
+
+    .dash-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem}
+    .dash-card{text-align:center}
+    .dash-num{font-family:var(--font-head);font-size:2.2rem}
+
+    .back-link{display:inline-flex;align-items:center;gap:.4rem;font-family:var(--font-mono);font-size:.75rem;color:var(--gray);transition:color .3s;padding:1rem 1.5rem}
+    .back-link:hover{color:var(--crimson)}
+
+    @media(max-width:768px){.sidebar{display:none}.main{padding:1.2rem}.fr{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+      <h2><i class="fas fa-lock"></i> ADMIN ACCESS</h2>
+      <input type="password" class="login-input" id="loginPass" placeholder="password"/>
+      <button class="login-btn" id="loginBtn">AUTHENTICATE</button>
+      <p class="login-err" id="loginErr">ACCESS DENIED</p>
+    </div>
+  </div>
+
+  <div class="admin-wrap" id="adminWrap" style="display:none">
+    <aside class="sidebar">
+      <div class="sidebar-logo">[ADMIN<span style="color:var(--purple)">03F24</span>]</div>
+      <nav class="sidebar-nav">
+        <a href="#" data-page="dash" class="active"><i class="fas fa-th-large"></i>DASHBOARD</a>
+        <a href="#" data-page="profile"><i class="fas fa-user"></i>PROFILE</a>
+        <a href="#" data-page="skills"><i class="fas fa-chart-bar"></i>SKILLS</a>
+        <a href="#" data-page="projects"><i class="fas fa-rocket"></i>PROJECTS</a>
+        <a href="#" data-page="certs"><i class="fas fa-certificate"></i>CERTIFICATIONS</a>
+        <a href="#" data-page="testimonials"><i class="fas fa-comments"></i>TESTIMONIALS</a>
+        <a href="#" data-page="timeline"><i class="fas fa-clock"></i>TIMELINE</a>
+        <a href="#" data-page="settings"><i class="fas fa-cog"></i>SETTINGS</a>
+      </nav>
+      <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Site</a>
+    </aside>
+
+    <main class="main">
+      <div class="page active" id="page-dash">
+        <h1 class="page-title">DASHBOARD</h1>
+        <div class="dash-cards">
+          <div class="card dash-card"><h3>SKILLS</h3><p class="dash-num" style="color:var(--cyan)" id="dSk">0</p></div>
+          <div class="card dash-card"><h3>PROJECTS</h3><p class="dash-num" style="color:var(--purple)" id="dPr">0</p></div>
+          <div class="card dash-card"><h3>CERTS</h3><p class="dash-num" style="color:var(--gold)" id="dCe">0</p></div>
+          <div class="card dash-card"><h3>TESTIMONIALS</h3><p class="dash-num" style="color:var(--green)" id="dTe">0</p></div>
+        </div>
+      </div>
+
+      <div class="page" id="page-profile">
+        <h1 class="page-title">PROFILE EDITOR</h1>
+        <form id="profileForm">
+          <div class="card"><h3>BASIC</h3>
+            <div class="fr"><div class="fg"><label>NAME</label><input class="fc" id="pN"/></div><div class="fg"><label>USERNAME</label><input class="fc" id="pU"/></div></div>
+            <div class="fg"><label>TITLE</label><input class="fc" id="pT"/></div>
+            <div class="fg"><label>SUBTITLE</label><input class="fc" id="pSt"/></div>
+            <div class="fg"><label>TAGLINE</label><input class="fc" id="pTg"/></div>
+            <div class="fg"><label>BIO</label><textarea class="fc" id="pB"></textarea></div>
+          </div>
+          <div class="card"><h3>CONTACT</h3>
+            <div class="fr"><div class="fg"><label>EMAIL</label><input class="fc" id="pE"/></div><div class="fg"><label>PHONE</label><input class="fc" id="pPh"/></div></div>
+            <div class="fg"><label>LOCATION</label><input class="fc" id="pL"/></div>
+          </div>
+          <div class="card"><h3>SOCIAL</h3>
+            <div class="fr"><div class="fg"><label>GITHUB</label><input class="fc" id="pGh"/></div><div class="fg"><label>LINKEDIN</label><input class="fc" id="pLi"/></div></div>
+            <div class="fr"><div class="fg"><label>TWITTER</label><input class="fc" id="pTw"/></div><div class="fg"><label>INSTAGRAM</label><input class="fc" id="pIg"/></div></div>
+            <div class="fg"><label>YOUTUBE</label><input class="fc" id="pYt"/></div>
+          </div>
+          <button type="submit" class="btn-a btn-s">SAVE PROFILE</button>
+        </form>
+      </div>
+
+      <div class="page" id="page-skills">
+        <h1 class="page-title">SKILLS MANAGER</h1>
+        <div class="card"><h3>ADD SKILL</h3>
+          <div class="fr"><div class="fg"><label>NAME</label><input class="fc" id="sN"/></div><div class="fg"><label>LEVEL (0-100)</label><input type="number" class="fc" id="sL" min="0" max="100" value="50"/></div></div>
+          <div class="fr"><div class="fg"><label>CATEGORY</label><select class="fc" id="sC"><option value="language">Language</option><option value="framework">Framework</option><option value="ai">AI</option><option value="security">Security</option><option value="tool">Tool</option></select></div><div class="fg"><label>RANK</label><select class="fc" id="sR"><option value="S+">S+</option><option value="S">S</option><option value="A" selected>A</option><option value="B">B</option></select></div></div>
+          <button class="btn-a btn-g" id="addSkill">ADD</button>
+        </div>
+        <div class="card"><h3>CURRENT</h3><div class="il" id="skList"></div></div>
+      </div>
+
+      <div class="page" id="page-projects">
+        <h1 class="page-title">PROJECTS MANAGER</h1>
+        <div class="card"><h3>ADD PROJECT</h3>
+          <div class="fg"><label>TITLE</label><input class="fc" id="prT"/></div>
+          <div class="fg"><label>DESCRIPTION</label><textarea class="fc" id="prD"></textarea></div>
+          <div class="fr"><div class="fg"><label>TECH (comma sep)</label><input class="fc" id="prTe"/></div><div class="fg"><label>ICON</label><input class="fc" id="prI" placeholder="fa-code"/></div></div>
+          <div class="fr"><div class="fg"><label>LIVE URL</label><input class="fc" id="prLk"/></div><div class="fg"><label>GITHUB URL</label><input class="fc" id="prGh"/></div></div>
+          <button class="btn-a btn-g" id="addProj">ADD</button>
+        </div>
+        <div class="card"><h3>CURRENT</h3><div class="il" id="prList"></div></div>
+      </div>
+
+      <div class="page" id="page-certs">
+        <h1 class="page-title">CERTIFICATIONS MANAGER</h1>
+        <div class="card"><h3>ADD CERTIFICATION</h3>
+          <div class="fg"><label>TITLE</label><input class="fc" id="ceT"/></div>
+          <div class="fr"><div class="fg"><label>PROVIDER</label><input class="fc" id="cePr"/></div><div class="fg"><label>COURSES COUNT</label><input type="number" class="fc" id="ceCo" value="1" min="1"/></div></div>
+          <div class="fr"><div class="fg"><label>CATEGORY</label><select class="fc" id="ceCa"><option value="professional">Professional</option><option value="specialization">Specialization</option><option value="ai">AI</option><option value="security">Security</option><option value="development">Development</option><option value="management">Management</option><option value="other">Other</option></select></div><div class="fg"><label>ICON</label><input class="fc" id="ceIc" placeholder="fa-certificate"/></div></div>
+          <button class="btn-a btn-g" id="addCert">ADD</button>
+        </div>
+        <div class="card"><h3>CURRENT (<span id="ceCount">0</span>)</h3><div class="il" id="ceList"></div></div>
+      </div>
+
+      <div class="page" id="page-testimonials">
+        <h1 class="page-title">TESTIMONIALS MANAGER</h1>
+        <div class="card"><h3>ADD TESTIMONIAL</h3>
+          <div class="fr"><div class="fg"><label>NAME</label><input class="fc" id="tN"/></div><div class="fg"><label>INITIALS</label><input class="fc" id="tI" maxlength="2"/></div></div>
+          <div class="fr"><div class="fg"><label>COURSE</label><input class="fc" id="tC"/></div><div class="fg"><label>RATING (1-5)</label><input type="number" class="fc" id="tR" min="1" max="5" value="5"/></div></div>
+          <div class="fg"><label>LINKEDIN URL</label><input class="fc" id="tL"/></div>
+          <div class="fg"><label>FEEDBACK</label><textarea class="fc" id="tTx"></textarea></div>
+          <button class="btn-a btn-g" id="addTest">ADD</button>
+        </div>
+        <div class="card"><h3>CURRENT</h3><div class="il" id="teList"></div></div>
+      </div>
+
+      <div class="page" id="page-timeline">
+        <h1 class="page-title">TIMELINE MANAGER</h1>
+        <div class="card"><h3>ADD EVENT</h3>
+          <div class="fr"><div class="fg"><label>YEAR</label><input class="fc" id="tlY"/></div><div class="fg"><label>PHASE</label><input class="fc" id="tlP" placeholder="ARC 5"/></div></div>
+          <div class="fg"><label>TITLE</label><input class="fc" id="tlT"/></div>
+          <div class="fg"><label>DESCRIPTION</label><textarea class="fc" id="tlD"></textarea></div>
+          <div class="fr"><div class="fg"><label>ICON</label><input class="fc" id="tlI" placeholder="fa-star"/></div><div class="fg"><label>COLOR</label><input type="color" class="fc" id="tlC" value="#00e5ff"/></div></div>
+          <button class="btn-a btn-g" id="addTime">ADD</button>
+        </div>
+        <div class="card"><h3>CURRENT</h3><div class="il" id="tlList"></div></div>
+      </div>
+
+      <div class="page" id="page-settings">
+        <h1 class="page-title">SETTINGS</h1>
+        <div class="card"><h3>CHANGE PASSWORD</h3>
+          <div class="fg"><label>NEW PASSWORD</label><input type="password" class="fc" id="newPass"/></div>
+          <button class="btn-a btn-s" id="chgPass">UPDATE</button>
+        </div>
+        <div class="card"><h3>DATA</h3>
+          <div class="bg">
+            <button class="btn-a btn-s" id="exportBtn">EXPORT JSON</button>
+            <button class="btn-a btn-d" id="resetBtn">RESET ALL</button>
+          </div>
+        </div>
+        <div class="card"><h3>IMPORT</h3>
+          <div class="fg"><label>PASTE JSON</label><textarea class="fc" id="impData" style="min-height:120px;font-family:var(--font-mono);font-size:.7rem"></textarea></div>
+          <button class="btn-a btn-g" id="impBtn">IMPORT</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="js/data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
