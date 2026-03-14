@@ -4,6 +4,18 @@
   margin: 0 auto;
 }
 
+/* Hide TRANSMIT title, subtitle, and form — show only Get In Touch panel (hidden, not removed) */
+.contact.contact-show-get-in-touch-only .transmit-sec-num,
+.contact.contact-show-get-in-touch-only .section-title.transmit-title-ref,
+.contact.contact-show-get-in-touch-only .transmit-subtitle,
+.contact.contact-show-get-in-touch-only .contact-form {
+  display: none !important;
+}
+
+.contact.contact-show-get-in-touch-only .contact-container {
+  justify-content: center;
+}
+
 .contact-container {
   display: flex;
   justify-content: space-between;
@@ -239,4 +251,26 @@
   margin-top: 1rem;
   font-size: 0.85rem;
   color: #00ff41 !important;
+}
+
+.transmit-error {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: #ff6b6b !important;
+}
+
+.transmit-setup-hint {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(0, 245, 255, 0.06);
+  border-radius: 6px;
+  border-left: 3px solid var(--accent-cyan);
+}
+
+.transmit-setup-hint code {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  color: var(--accent-cyan);
 }

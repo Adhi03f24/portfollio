@@ -4,18 +4,59 @@ import { FaEnvelope, FaPhone } from "react-icons/fa";
 import { profile } from "../../data/profile";
 import "./Contact.css";
 
+const FORM_ENDPOINT = import.meta.env.VITE_CONTACT_FORM_ENDPOINT || "";
+
 export default function Contact() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    setError(null);
+    const form = e.target;
+    const name = form.name?.value?.trim() || "";
+    const email = form.email?.value?.trim() || "";
+    const message = form.message?.value?.trim() || "";
+
+    if (!FORM_ENDPOINT) {
+      setError(
+        "Form backend not set up. Add VITE_CONTACT_FORM_ENDPOINT in .env (see README). You can email me using the address on the left."
+      );
+      return;
+    }
+
+    setSending(true);
+    try {
+      const isOwnApi = FORM_ENDPOINT.includes("/api/send-contact");
+      const res = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: isOwnApi ? { "Content-Type": "application/json" } : undefined,
+        body: isOwnApi
+          ? JSON.stringify({ name, email, message })
+          : (() => {
+              const fd = new FormData();
+              fd.append("name", name);
+              fd.append("email", email);
+              fd.append("message", message);
+              return fd;
+            })(),
+      });
+      const data = res.ok ? null : await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data?.error || "Send failed");
+      setSubmitted(true);
+      form.reset();
+    } catch (err) {
+      setError(err.message || "Transmission failed. Try email below or try again.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
-    <section className="contact transmit-section" id="contact" ref={ref}>
+    <section className="contact transmit-section contact-show-get-in-touch-only" id="contact" ref={ref}>
       <motion.span
         className="transmit-sec-num"
         initial={{ opacity: 0 }}
@@ -69,31 +110,38 @@ export default function Contact() {
         </div>
 
         <form className="contact-form glass-panel transmit-form" onSubmit={handleSubmit}>
+          {!FORM_ENDPOINT && (
+            <p className="transmit-setup-hint">
+              To receive submissions at your email, add <code>VITE_CONTACT_FORM_ENDPOINT</code> in <code>.env</code> (Formspree — see README).
+            </p>
+          )}
           <div className="transmit-prompt transmit-prompt-form">
             <span className="transmit-prefix">visitor@portfolio</span>
             <span className="transmit-tilde">:~$</span>
           </div>
           <label className="transmit-label">
             <span className="transmit-input-prefix">enter_name</span>
-            <input type="text" placeholder="Your Name" required className="transmit-input" />
+            <input name="name" type="text" placeholder="Your Name" required className="transmit-input" />
           </label>
           <label className="transmit-label">
             <span className="transmit-input-prefix">enter_email</span>
-            <input type="email" placeholder="Your Email" required className="transmit-input" />
+            <input name="email" type="email" placeholder="Your Email" required className="transmit-input" />
           </label>
           <label className="transmit-label">
             <span className="transmit-input-prefix">enter_message</span>
-            <textarea placeholder="Your Message" rows={5} required className="transmit-input transmit-textarea" />
+            <textarea name="message" placeholder="Your Message" rows={5} required className="transmit-input transmit-textarea" />
           </label>
           <motion.button
             type="submit"
             className="contact-submit transmit-submit"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            disabled={sending}
+            whileHover={!sending ? { scale: 1.02 } : undefined}
+            whileTap={!sending ? { scale: 0.98 } : undefined}
           >
-            SEND TRANSMISSION
+            {sending ? "SENDING…" : "SEND TRANSMISSION"}
           </motion.button>
-          {submitted && (
+          {error && <p className="transmit-error">{error}</p>}
+          {submitted && !error && (
             <p className="transmit-success">✓ Transmission received. Channel open.</p>
           )}
         </form>
