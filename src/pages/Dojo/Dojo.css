@@ -1,0 +1,132 @@
+.dojo-section {
+  padding: clamp(4rem, 10vw, 8rem) 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.dojo-sec-num {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.12);
+  display: block;
+  line-height: 1;
+  margin-bottom: -0.5rem;
+  text-align: center;
+}
+
+.dojo-title-ref {
+  color: var(--accent-cyan);
+  text-shadow: var(--glow-cyan);
+}
+
+.dojo-subtitle {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.08em;
+}
+
+.dojo-categories {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+}
+
+.dojo-cat {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  padding: 0.4rem 1rem;
+  border: 1px solid rgba(0, 245, 255, 0.25);
+  border-radius: 20px;
+  color: var(--accent-cyan);
+  background: rgba(0, 245, 255, 0.05);
+}
+
+.dojo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.dojo-card {
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.dojo-card:hover {
+  border-color: rgba(0, 245, 255, 0.2);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 245, 255, 0.1);
+}
+
+.dojo-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.dojo-initials {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+  color: #0a0a0f;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dojo-name {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.dojo-course {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 0.2rem;
+}
+
+.dojo-stars {
+  color: var(--accent-gold);
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: 0.1em;
+}
+
+.dojo-text {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.dojo-link {
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: var(--accent-cyan);
+  text-decoration: none;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+
+.dojo-link:hover {
+  color: var(--accent-cyan);
+  text-shadow: 0 0 12px rgba(0, 245, 255, 0.5);
+}

@@ -1,0 +1,96 @@
+/* ADHI03F24 — Anime theme & global */
+:root {
+  /* Anime / game palette */
+  --bg-deep: #0a0a0f;
+  --bg-card: rgba(18, 18, 28, 0.85);
+  --bg-glass: rgba(255, 255, 255, 0.06);
+  --border-glass: rgba(255, 255, 255, 0.12);
+  --accent-cyan: #00f5ff;
+  --accent-magenta: #ff00aa;
+  --accent-gold: #ffd700;
+  --accent-orange: #ff6b35;
+  --text-primary: #e8e8f0;
+  --text-secondary: #a0a0b8;
+  --glow-cyan: 0 0 30px rgba(0, 245, 255, 0.4);
+  --glow-magenta: 0 0 30px rgba(255, 0, 170, 0.35);
+  --font-display: 'Orbitron', 'Rajdhani', sans-serif;
+  --font-body: 'Exo 2', sans-serif;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0, 245, 255, 0.08), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 50%, rgba(255, 0, 170, 0.05), transparent),
+    radial-gradient(ellipse 60% 40% at 0% 80%, rgba(0, 245, 255, 0.05), transparent);
+}
+
+/* Selection */
+::selection {
+  background: rgba(0, 245, 255, 0.3);
+  color: #fff;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--accent-cyan), var(--accent-magenta));
+  border-radius: 4px;
+}
+
+/* Section titles */
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  position: relative;
+  margin-bottom: 4rem;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 120px;
+  height: 4px;
+  margin: 1rem auto 0;
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+  border-radius: 2px;
+  box-shadow: var(--glow-cyan);
+}
+
+/* Glass panel */
+.glass-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}

@@ -1,0 +1,116 @@
+.admin-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--bg-deep);
+}
+
+.admin-login,
+.admin-panel {
+  max-width: 420px;
+  width: 100%;
+  padding: 2.5rem;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 245, 255, 0.2);
+}
+
+.admin-sec-num {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: var(--text-secondary);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.admin-login h1,
+.admin-panel h1 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--accent-cyan);
+  margin-bottom: 1.5rem;
+  text-shadow: var(--glow-cyan);
+}
+
+.admin-panel h1 {
+  margin-bottom: 0.75rem;
+}
+
+.admin-panel p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.admin-label {
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.admin-input {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-glass);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  outline: none;
+  transition: border-color 0.25s;
+}
+
+.admin-input:focus {
+  border-color: var(--accent-cyan);
+}
+
+.admin-error {
+  color: #ff1744;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.admin-submit {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent-cyan), #00c8d4);
+  color: #0a0a0f;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  transition: box-shadow 0.25s;
+  margin-bottom: 1rem;
+}
+
+.admin-submit:hover {
+  box-shadow: 0 8px 28px rgba(0, 245, 255, 0.4);
+}
+
+.admin-back {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.admin-back:hover {
+  color: var(--accent-cyan);
+  border-color: var(--accent-cyan);
+}

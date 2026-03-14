@@ -1,0 +1,346 @@
+/* ============================================================
+   ORIGIN_STORY — Timeline / arc evolution
+   ============================================================ */
+
+.story-section {
+  padding: clamp(4rem, 10vw, 8rem) clamp(2rem, 5vw, 3rem);
+  min-height: 100vh;
+  position: relative;
+  overflow: visible;
+}
+
+.story-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 245, 255, 0.02) 2px,
+    rgba(0, 245, 255, 0.02) 3px
+  );
+  mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, black 0%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, black 0%, transparent 75%);
+}
+
+.story-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 100% 60% at 50% 0%, rgba(0, 245, 255, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 50% at 80% 60%, rgba(168, 85, 247, 0.04) 0%, transparent 45%),
+    radial-gradient(ellipse 60% 40% at 20% 80%, rgba(255, 215, 0, 0.03) 0%, transparent 40%);
+}
+
+.story-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 70%);
+}
+
+.story-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  box-sizing: border-box;
+}
+
+.story-sec-num {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.12);
+  display: block;
+  line-height: 1;
+  margin-bottom: -0.5rem;
+  text-align: center;
+}
+
+.story-title-ref {
+  color: var(--accent-cyan);
+  text-shadow: var(--glow-cyan);
+}
+
+.story-subtitle {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: 0.5rem;
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.08em;
+}
+
+.story-subtitle-bracket {
+  color: var(--accent-cyan);
+  opacity: 0.6;
+  margin: 0 0.25em;
+}
+
+/* ---- Timeline track ---- */
+.story-timeline-wrap {
+  position: relative;
+  margin-left: 0.5rem;
+  padding-left: 2rem; /* reserve space for marker + ring so nothing clips */
+  min-width: 0;
+}
+
+.story-timeline-line {
+  position: absolute;
+  left: 1.5rem; /* left of marker so line and circle never collide */
+  top: 0.5rem;
+  bottom: 0.5rem;
+  width: 3px;
+  border-radius: 2px;
+  background: linear-gradient(
+    180deg,
+    #00ff41 0%,
+    #a855f7 35%,
+    #ff1744 65%,
+    #ffd700 100%
+  );
+  box-shadow:
+    0 0 12px rgba(0, 255, 65, 0.4),
+    0 0 24px rgba(168, 85, 247, 0.2),
+    0 0 12px rgba(255, 23, 68, 0.2),
+    0 0 12px rgba(255, 215, 0, 0.3);
+  transform: translateX(-50%);
+  animation: story-line-flow 6s ease-in-out infinite;
+}
+
+@keyframes story-line-flow {
+  0%, 100% { opacity: 1; filter: brightness(1); }
+  50% { opacity: 0.9; filter: brightness(1.2); }
+}
+
+.story-timeline {
+  position: relative;
+  padding-left: 3rem; /* marker column: center at 3rem, marker 44px = 22px each side */
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  min-width: 0;
+}
+
+.story-step {
+  position: relative;
+  margin-bottom: 2.5rem;
+  padding-left: 0;
+}
+
+.story-step:last-child {
+  margin-bottom: 0;
+}
+
+/* ---- Node marker ---- */
+.story-step-marker {
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--arc-color, var(--accent-cyan));
+  box-shadow:
+    0 0 0 2px rgba(10, 10, 15, 0.9),
+    0 0 20px color-mix(in srgb, var(--arc-color, var(--accent-cyan)) 60%, transparent),
+    0 0 36px color-mix(in srgb, var(--arc-color, var(--accent-cyan)) 35%, transparent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex-shrink: 0;
+}
+
+.story-step:hover .story-step-marker {
+  transform: translateX(-50%) scale(1.08);
+  box-shadow:
+    0 0 0 2px rgba(10, 10, 15, 0.9),
+    0 0 28px color-mix(in srgb, var(--arc-color, var(--accent-cyan)) 80%, transparent),
+    0 0 48px color-mix(in srgb, var(--arc-color, var(--accent-cyan)) 50%, transparent);
+}
+
+.story-step-marker-ring {
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--arc-color, var(--accent-cyan)) 45%, transparent);
+  opacity: 0.6;
+  animation: story-node-pulse 2.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes story-node-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50% { transform: scale(1.15); opacity: 0.2; }
+}
+
+.story-step-phase {
+  font-size: 0.4rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #0a0a0f;
+  line-height: 1;
+}
+
+.story-step-year {
+  font-family: var(--font-display);
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: #0a0a0f;
+  line-height: 1.1;
+}
+
+/* ---- Card ---- */
+.story-step-content {
+  position: relative;
+  margin-left: 2.25rem; /* clear marker (20px) + ring (2px) + gap so no collision */
+  padding: 1.5rem 1.5rem 1.5rem 1.75rem;
+  border-radius: 12px;
+  border-left: 3px solid var(--arc-color, var(--accent-cyan));
+  background: rgba(12, 12, 18, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.3s var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1)), box-shadow 0.3s, border-color 0.3s;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  overflow: visible;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.story-step-content:hover {
+  transform: translateX(6px);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 0 24px color-mix(in srgb, var(--arc-color, var(--accent-cyan)) 25%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.story-step-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--arc-color, var(--accent-cyan));
+  opacity: 0.95;
+}
+
+.story-step-corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: rgba(255, 255, 255, 0.12);
+  border-style: solid;
+  border-width: 0;
+}
+
+.story-step-corner-tl {
+  top: 8px;
+  left: 8px;
+  border-top-width: 1px;
+  border-left-width: 1px;
+}
+
+.story-step-corner-br {
+  bottom: 8px;
+  right: 8px;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+}
+
+.story-step-content h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--arc-color, var(--accent-cyan));
+  text-shadow: 0 0 20px color-mix(in srgb, var(--arc-color, var(--accent-cyan)) 50%, transparent);
+  margin-bottom: 0.5rem;
+  padding-right: 4rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.story-step-content p {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 640px) {
+  .story-section {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .story-inner {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .story-timeline-wrap {
+    padding-left: 1.5rem;
+  }
+
+  .story-timeline-wrap .story-timeline-line {
+    left: 1.25rem; /* left of marker to avoid collision */
+  }
+
+  .story-timeline {
+    padding-left: 2.5rem;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+  }
+
+  .story-step-marker {
+    width: 36px;
+    height: 36px;
+    font-size: 0.9em;
+  }
+
+  .story-step-marker-ring {
+    inset: -2px;
+  }
+
+  .story-step-content {
+    margin-left: 1.75rem;
+    padding: 1.25rem 1.25rem 1.25rem 1.5rem;
+  }
+
+  .story-step-badge {
+    font-size: 0.55rem;
+    top: 0.6rem;
+    right: 0.6rem;
+  }
+
+  .story-step-content h3 {
+    padding-right: 3rem;
+    font-size: 1.05rem;
+  }
+}
