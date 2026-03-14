@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>ADHI03F24 — Enter My World</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- ██ PRELOADER ██ -->
+<div id="preloader">
+  <canvas id="preCanvas"></canvas>
+  <div class="pre-content">
+    <div class="pre-kanji">影</div>
+    <div class="pre-log" id="preLog"></div>
+    <div class="pre-bar"><div class="pre-fill" id="preFill"></div></div>
+    <p class="pre-pct" id="prePct">0%</p>
+    <h1 class="pre-name glitch" data-text="ADHI03F24">ADHI03F24</h1>
+  </div>
+</div>
+
+<!-- ██ CURSOR ██ -->
+<div id="curDot"></div>
+<div id="curRing"></div>
+<canvas id="curTrail"></canvas>
+
+<!-- ██ OVERLAYS ██ -->
+<div class="scanlines"></div>
+<div class="vignette"></div>
+<div id="flash"></div>
+
+<!-- ██ NAV ██ -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">[<span class="nl-a">ADHI</span><span class="nl-b">03F24</span>]</a>
+  <div class="nav-links" id="navLinks">
+    <a href="#hero" class="nlink active" data-n="01">WORLD</a>
+    <a href="#story" class="nlink" data-n="02">ORIGIN</a>
+    <a href="#skills" class="nlink" data-n="03">ARSENAL</a>
+    <a href="#certs" class="nlink" data-n="04">FEATS</a>
+    <a href="#projects" class="nlink" data-n="05">MISSIONS</a>
+    <a href="#dojo" class="nlink" data-n="06">DOJO</a>
+    <a href="#contact" class="nlink" data-n="07">TRANSMIT</a>
+  </div>
+  <div class="nav-r">
+    <span class="nav-rank">S-RANK</span>
+    <button class="burger" id="burger" aria-label="menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ██ HERO — DUAL WORLD ██ -->
+<section id="hero" class="hero">
+  <!-- Dark Hacker World (underneath) -->
+  <div class="world world-dark" id="worldDark">
+    <canvas id="darkCanvas"></canvas>
+    <div class="world-mountains dark-mountains">
+      <div class="mtn mtn-d1"></div>
+      <div class="mtn mtn-d2"></div>
+      <div class="mtn mtn-d3"></div>
+    </div>
+    <div class="world-ground dark-ground"></div>
+    <div class="character char-villain" id="charVillain">
+      <div class="char-glow villain-glow"></div>
+      <div class="char-body">
+        <div class="char-head"></div>
+        <div class="char-torso"></div>
+        <div class="char-cloak"></div>
+      </div>
+      <div class="char-shadow"></div>
+    </div>
+    <div class="world-info dark-info">
+      <p class="wi-tag">// THE_SHADOW_IDENTITY</p>
+      <h2 class="wi-name" style="color:#00ff41">THE HACKER</h2>
+      <p class="wi-role">Ethical Hacker since 2021</p>
+      <p class="wi-desc">Penetration testing. Vulnerability assessment. Red teaming. Network exploitation. 50+ security certifications. The digital underworld forged these skills.</p>
+      <div class="wi-techs">
+        <span>Kali Linux</span><span>Metasploit</span><span>Nmap</span>
+        <span>Burp Suite</span><span>Wireshark</span><span>OWASP</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Light Developer World (on top — has torch hole) -->
+  <div class="world world-light" id="worldLight">
+    <canvas id="lightCanvas"></canvas>
+    <div class="world-sky">
+      <div class="sun"></div>
+      <div class="cloud c1"></div>
+      <div class="cloud c2"></div>
+      <div class="cloud c3"></div>
+    </div>
+    <div class="world-mountains light-mountains">
+      <div class="mtn mtn-l1"></div>
+      <div class="mtn mtn-l2"></div>
+      <div class="mtn mtn-l3"></div>
+    </div>
+    <div class="world-ground light-ground"></div>
+    <div class="world-trees">
+      <div class="tree sakura-tree">
+        <div class="trunk"></div>
+        <div class="canopy"></div>
+        <div class="blossoms">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span>
+        </div>
+      </div>
+    </div>
+    <div class="character char-hero" id="charHero">
+      <div class="char-glow hero-glow"></div>
+      <div class="char-body">
+        <div class="char-head"></div>
+        <div class="char-torso"></div>
+        <div class="char-coat"></div>
+      </div>
+      <div class="char-shadow"></div>
+    </div>
+    <div class="world-info light-info">
+      <p class="wi-tag">// CURRENT_IDENTITY</p>
+      <h2 class="wi-name" style="color:#00e5ff">ADHITHIYAN MALIACKAL</h2>
+      <p class="wi-role">AI-Augmented Senior Software Developer</p>
+      <p class="wi-title">Vibe Coder · Prompt Engineer · AI Sensei</p>
+      <p class="wi-desc">Building intelligent systems with AI augmentation. Training the next generation. 100+ certifications earned.</p>
+      <div class="wi-techs">
+        <span>Python</span><span>React</span><span>LangChain</span>
+        <span>OpenAI</span><span>TypeScript</span><span>Next.js</span>
+      </div>
+      <div class="wi-stats">
+        <div class="ws"><span class="ws-l">LVL</span><span class="ws-v">42</span></div>
+        <div class="ws"><span class="ws-l">CLASS</span><span class="ws-v">SHADOW DEV</span></div>
+        <div class="ws"><span class="ws-l">RANK</span><span class="ws-v ws-gold">S</span></div>
+        <div class="ws"><span class="ws-l">CERTS</span><span class="ws-v">100+</span></div>
+      </div>
+    </div>
+    <div class="torch-hint">
+      <i class="fas fa-hand-pointer"></i>
+      MOVE CURSOR TO REVEAL THE SHADOW
+    </div>
+  </div>
+
+  <div class="scroll-cue">
+    <div class="sc-mouse"><div class="sc-dot"></div></div>
+    <span>SCROLL TO BEGIN STORY</span>
+  </div>
+</section>
+
+<!-- ██ STORY ██ -->
+<section id="story" class="section story-section">
+  <div class="sec-head">
+    <span class="sn">02</span>
+    <h2 class="st glitch" data-text="ORIGIN_STORY">ORIGIN_STORY</h2>
+    <p class="ss">The evolution of a digital warrior</p>
+    <div class="sl"></div>
+  </div>
+  <div class="story-timeline" id="storyTimeline"></div>
+</section>
+
+<!-- ██ SKILLS ██ -->
+<section id="skills" class="section skills-section">
+  <div class="sec-head">
+    <span class="sn">03</span>
+    <h2 class="st glitch" data-text="SKILL_TREE">SKILL_TREE</h2>
+    <p class="ss">Power levels acquired through years of combat</p>
+    <div class="sl"></div>
+  </div>
+  <div class="sk-hud">
+    <div class="sk-hud-l">
+      <div class="sh-i"><span class="sh-l">PLAYER</span><span class="sh-v">ADHI03F24</span></div>
+      <div class="sh-i"><span class="sh-l">RANK</span><span class="sh-v sh-gold">S</span></div>
+      <div class="sh-i"><span class="sh-l">SKILLS</span><span class="sh-v" id="skCount">38</span></div>
+    </div>
+    <div class="sk-filters" id="skFilters">
+      <button class="skf active" data-c="all">ALL</button>
+      <button class="skf" data-c="language">LANG</button>
+      <button class="skf" data-c="framework">FRAME</button>
+      <button class="skf" data-c="ai">AI</button>
+      <button class="skf" data-c="security">SEC</button>
+      <button class="skf" data-c="tool">TOOL</button>
+    </div>
+  </div>
+  <div class="sk-grid" id="skGrid"></div>
+</section>
+
+<!-- ██ CERTIFICATIONS ██ -->
+<section id="certs" class="section certs-section">
+  <div class="sec-head">
+    <span class="sn">04</span>
+    <h2 class="st glitch" data-text="ACHIEVEMENTS">ACHIEVEMENTS</h2>
+    <p class="ss">Levels conquered, badges earned</p>
+    <div class="sl"></div>
+  </div>
+  <div class="cert-hero">
+    <div class="cert-num" id="certNum">0</div>
+    <div class="cert-lab">ACHIEVEMENTS UNLOCKED</div>
+  </div>
+  <div class="cert-flt" id="certFlt">
+    <button class="cf active" data-c="all">ALL</button>
+    <button class="cf" data-c="pro">PRO CERTS</button>
+    <button class="cf" data-c="spec">SPECIALIZATIONS</button>
+    <button class="cf" data-c="ai">AI / GEN-AI</button>
+    <button class="cf" data-c="sec">SECURITY</button>
+    <button class="cf" data-c="dev">DEV</button>
+    <button class="cf" data-c="other">OTHER</button>
+  </div>
+  <div class="cert-grid" id="certGrid"></div>
+</section>
+
+<!-- ██ PROJECTS ██ -->
+<section id="projects" class="section proj-section">
+  <div class="sec-head">
+    <span class="sn">05</span>
+    <h2 class="st glitch" data-text="MISSIONS">MISSIONS</h2>
+    <p class="ss">Weapons forged in the fires of creation</p>
+    <div class="sl"></div>
+  </div>
+  <div class="proj-grid" id="projGrid"></div>
+</section>
+
+<!-- ██ DOJO ██ -->
+<section id="dojo" class="section dojo-section">
+  <div class="sec-head">
+    <span class="sn">06</span>
+    <h2 class="st glitch" data-text="TRAINING_DOJO">TRAINING_DOJO</h2>
+    <p class="ss">Voices from the warriors I've trained</p>
+    <div class="sl"></div>
+  </div>
+  <div class="dojo-teaches">
+    <div class="dt"><i class="fas fa-wand-magic-sparkles"></i> Prompt Engineering</div>
+    <div class="dt"><i class="fas fa-code"></i> AI-Augmented Dev</div>
+    <div class="dt"><i class="fas fa-shield-halved"></i> Cybersecurity</div>
+  </div>
+  <div class="dojo-grid" id="dojoGrid"></div>
+</section>
+
+<!-- ██ CONTACT ██ -->
+<section id="contact" class="section contact-section">
+  <div class="sec-head">
+    <span class="sn">07</span>
+    <h2 class="st glitch" data-text="TRANSMIT">TRANSMIT</h2>
+    <p class="ss">Open a channel to me</p>
+    <div class="sl"></div>
+  </div>
+  <div class="con-grid">
+    <div class="term">
+      <div class="term-bar"><span class="tb r"></span><span class="tb y"></span><span class="tb g"></span><span class="term-t">signal@adhi03f24</span></div>
+      <form class="term-body" id="conForm">
+        <div class="tl"><span class="tp">$</span><span class="tc">name</span></div>
+        <input class="ti" name="name" placeholder="your_name" required/>
+        <div class="tl"><span class="tp">$</span><span class="tc">email</span></div>
+        <input class="ti" name="email" type="email" placeholder="you@email.com" required/>
+        <div class="tl"><span class="tp">$</span><span class="tc">message</span></div>
+        <textarea class="ti tia" name="message" placeholder="your message..." required></textarea>
+        <button type="submit" class="btn btn-p"><i class="fas fa-paper-plane"></i> SEND_TRANSMISSION</button>
+      </form>
+    </div>
+    <div class="con-info" id="conInfo"></div>
+  </div>
+</section>
+
+<!-- ██ FOOTER ██ -->
+<footer>
+  <div class="ft-inner">
+    <div class="ft-col"><h4 class="glitch" data-text="[ADHI03F24]">[ADHI03F24]</h4><p>AI-Augmented Developer.<br/>Former Ethical Hacker.<br/>Mentor. Born to code.</p></div>
+    <div class="ft-col"><h4>LINKS</h4><a href="#hero">Home</a><a href="#story">Origin</a><a href="#skills">Arsenal</a><a href="#certs">Feats</a><a href="#dojo">Dojo</a></div>
+    <div class="ft-col"><h4>CONNECT</h4><div class="ft-soc" id="ftSoc"></div></div>
+  </div>
+  <div class="ft-bot"><p>&copy; <span id="ftYr"></span> ADHI03F24</p><a href="admin.html" class="ft-admin"><i class="fas fa-lock"></i> ADMIN</a></div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/scene.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

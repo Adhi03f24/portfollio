@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>ADHI03F24 — Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root{--bg:#080818;--bg2:#0e0e28;--bg3:#141440;--red:#ff1744;--cyan:#00e5ff;--purple:#a855f7;--gold:#ffd700;--green:#00ff41;--white:#e0e0f0;--gray:#555577;--dark:#2a2a44;--fh:'Orbitron',sans-serif;--fb:'Rajdhani',sans-serif;--fm:'Share Tech Mono',monospace}
+    *{margin:0;padding:0;box-sizing:border-box}body{font-family:var(--fb);background:var(--bg);color:var(--white);min-height:100vh}a{color:var(--cyan);text-decoration:none}
+    .lov{position:fixed;inset:0;z-index:10000;background:var(--bg);display:flex;align-items:center;justify-content:center}.lov.h{display:none}
+    .lb{background:var(--bg2);border:1px solid rgba(255,255,255,.05);border-radius:8px;padding:2.5rem;max-width:360px;width:90%;text-align:center}
+    .lb h2{font-family:var(--fh);color:var(--red);letter-spacing:.2em;margin-bottom:1.5rem;font-size:.9rem}
+    .li{width:100%;padding:.7rem;background:var(--bg3);border:1px solid var(--dark);border-radius:3px;color:var(--white);font-family:var(--fm);font-size:.9rem;margin-bottom:.8rem;outline:none;text-align:center}
+    .li:focus{border-color:var(--red)}
+    .lbtn{width:100%;padding:.7rem;background:linear-gradient(135deg,var(--red),var(--purple));border:none;border-radius:3px;color:#fff;font-family:var(--fh);font-size:.7rem;letter-spacing:.15em;cursor:pointer;font-weight:700}
+    .le{color:var(--red);font-size:.75rem;margin-top:.6rem;display:none}
+    .aw{display:flex;min-height:100vh}.sb{width:240px;background:var(--bg2);border-right:1px solid rgba(255,255,255,.04);padding:1.2rem 0;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto}
+    .sbl{font-family:var(--fh);font-size:.8rem;color:var(--red);text-align:center;padding:0 1rem 1.2rem;letter-spacing:.2em;border-bottom:1px solid rgba(255,255,255,.04);margin-bottom:.4rem}
+    .sbn a{display:flex;align-items:center;gap:.6rem;padding:.65rem 1.2rem;color:var(--gray);font-family:var(--fh);font-size:.58rem;letter-spacing:.08em;transition:all .3s;border-left:3px solid transparent}
+    .sbn a:hover,.sbn a.on{color:var(--red);background:rgba(255,23,68,.03);border-left-color:var(--red)}
+    .sbn a i{width:16px;text-align:center;font-size:.8rem}
+    .mn{flex:1;padding:1.5rem 2rem;overflow-y:auto}.pg{display:none}.pg.on{display:block}
+    .pt{font-family:var(--fh);font-size:1.1rem;color:var(--red);letter-spacing:.1em;margin-bottom:1.2rem;padding-bottom:.6rem;border-bottom:1px solid rgba(255,255,255,.04)}
+    .cd{background:var(--bg2);border:1px solid rgba(255,255,255,.04);border-radius:6px;padding:1.2rem;margin-bottom:1rem}
+    .cd h3{font-family:var(--fh);font-size:.68rem;color:var(--purple);letter-spacing:.08em;margin-bottom:.8rem}
+    .fg{margin-bottom:.8rem}.fg label{display:block;font-family:var(--fm);font-size:.62rem;color:var(--gray);margin-bottom:.2rem;letter-spacing:.08em}
+    .fc{width:100%;padding:.55rem .8rem;background:var(--bg3);border:1px solid rgba(255,255,255,.05);border-radius:3px;color:var(--white);font-family:var(--fb);font-size:.82rem;outline:none;transition:border-color .3s}
+    .fc:focus{border-color:var(--red)}textarea.fc{min-height:80px;resize:vertical}select.fc{cursor:pointer}
+    .fr{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+    .ba{padding:.45rem 1rem;border:none;border-radius:3px;font-family:var(--fh);font-size:.58rem;letter-spacing:.08em;cursor:pointer;transition:all .3s}
+    .bs{background:var(--red);color:#fff}.bs:hover{box-shadow:0 0 12px rgba(255,23,68,.3)}
+    .bg{background:var(--green);color:#000}.bg:hover{box-shadow:0 0 12px rgba(0,255,65,.3)}
+    .bd{background:#ff2246;color:#fff}.bd:hover{box-shadow:0 0 12px rgba(255,34,70,.3)}
+    .bgrp{display:flex;gap:.3rem;margin-top:.6rem;flex-wrap:wrap}
+    .il{display:grid;gap:.6rem}
+    .ie{background:var(--bg3);border:1px solid rgba(255,255,255,.04);border-radius:4px;padding:.8rem;display:flex;justify-content:space-between;align-items:center;gap:.6rem}
+    .ie h4{font-family:var(--fh);font-size:.7rem;color:var(--white);letter-spacing:.03em}
+    .ie p{font-size:.65rem;color:var(--gray);margin-top:.15rem}
+    .ie-a{display:flex;gap:.3rem;flex-shrink:0}
+    .bsm{padding:.3rem .6rem;font-size:.5rem}
+    .toast{position:fixed;bottom:1.5rem;right:1.5rem;padding:.7rem 1.5rem;background:var(--green);color:#000;font-family:var(--fh);font-size:.65rem;letter-spacing:.08em;border-radius:4px;transform:translateY(70px);opacity:0;transition:all .4s;z-index:99999}
+    .toast.show{transform:translateY(0);opacity:1}
+    .bk{display:inline-flex;align-items:center;gap:.3rem;font-family:var(--fm);font-size:.7rem;color:var(--gray);transition:color .3s;padding:.8rem 1.2rem}
+    .bk:hover{color:var(--red)}
+    @media(max-width:768px){.sb{display:none}.mn{padding:1rem}.fr{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="lov" id="lov"><div class="lb"><h2><i class="fas fa-lock"></i> ADMIN</h2><input type="password" class="li" id="lp" placeholder="password"/><button class="lbtn" id="lb">AUTHENTICATE</button><p class="le" id="lerr">ACCESS DENIED</p></div></div>
+  <div class="aw" id="aw" style="display:none">
+    <aside class="sb"><div class="sbl">[ADMIN<span style="color:var(--purple)">03F24</span>]</div>
+      <nav class="sbn">
+        <a href="#" data-p="dash" class="on"><i class="fas fa-th-large"></i>DASHBOARD</a>
+        <a href="#" data-p="profile"><i class="fas fa-user"></i>PROFILE</a>
+        <a href="#" data-p="skills"><i class="fas fa-chart-bar"></i>SKILLS</a>
+        <a href="#" data-p="projects"><i class="fas fa-rocket"></i>PROJECTS</a>
+        <a href="#" data-p="certs"><i class="fas fa-certificate"></i>CERTS</a>
+        <a href="#" data-p="tests"><i class="fas fa-comments"></i>TESTIMONIALS</a>
+        <a href="#" data-p="timeline"><i class="fas fa-clock"></i>TIMELINE</a>
+        <a href="#" data-p="settings"><i class="fas fa-cog"></i>SETTINGS</a>
+      </nav>
+      <a href="index.html" class="bk"><i class="fas fa-arrow-left"></i> Back to Site</a>
+    </aside>
+    <main class="mn">
+      <div class="pg on" id="pg-dash"><h1 class="pt">DASHBOARD</h1><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.8rem;margin-bottom:1rem"><div class="cd" style="text-align:center"><h3>SKILLS</h3><p style="font-size:2rem;color:var(--cyan);font-family:var(--fh)" id="dS">0</p></div><div class="cd" style="text-align:center"><h3>PROJECTS</h3><p style="font-size:2rem;color:var(--purple);font-family:var(--fh)" id="dP">0</p></div><div class="cd" style="text-align:center"><h3>CERTS</h3><p style="font-size:2rem;color:var(--gold);font-family:var(--fh)" id="dC">0</p></div><div class="cd" style="text-align:center"><h3>TESTIMONIALS</h3><p style="font-size:2rem;color:var(--green);font-family:var(--fh)" id="dT">0</p></div></div></div>
+      <div class="pg" id="pg-profile"><h1 class="pt">PROFILE</h1><form id="pf"><div class="cd"><h3>BASIC</h3><div class="fr"><div class="fg"><label>NAME</label><input class="fc" id="pN"/></div><div class="fg"><label>USERNAME</label><input class="fc" id="pU"/></div></div><div class="fg"><label>TITLE</label><input class="fc" id="pT"/></div><div class="fg"><label>SUBTITLE</label><input class="fc" id="pSt"/></div><div class="fg"><label>TAGLINE</label><input class="fc" id="pTg"/></div><div class="fg"><label>BIO</label><textarea class="fc" id="pB"></textarea></div></div><div class="cd"><h3>CONTACT</h3><div class="fr"><div class="fg"><label>EMAIL</label><input class="fc" id="pE"/></div><div class="fg"><label>PHONE</label><input class="fc" id="pPh"/></div></div><div class="fg"><label>LOCATION</label><input class="fc" id="pL"/></div></div><div class="cd"><h3>SOCIAL</h3><div class="fr"><div class="fg"><label>GITHUB</label><input class="fc" id="pGh"/></div><div class="fg"><label>LINKEDIN</label><input class="fc" id="pLi"/></div></div><div class="fr"><div class="fg"><label>TWITTER</label><input class="fc" id="pTw"/></div><div class="fg"><label>INSTAGRAM</label><input class="fc" id="pIg"/></div></div><div class="fg"><label>YOUTUBE</label><input class="fc" id="pYt"/></div></div><button type="submit" class="ba bs">SAVE</button></form></div>
+      <div class="pg" id="pg-skills"><h1 class="pt">SKILLS</h1><div class="cd"><h3>ADD</h3><div class="fr"><div class="fg"><label>NAME</label><input class="fc" id="sN"/></div><div class="fg"><label>LEVEL</label><input type="number" class="fc" id="sL" min="0" max="100" value="50"/></div></div><div class="fr"><div class="fg"><label>CATEGORY</label><select class="fc" id="sC"><option value="language">Language</option><option value="framework">Framework</option><option value="ai">AI</option><option value="security">Security</option><option value="tool">Tool</option></select></div><div class="fg"><label>RANK</label><select class="fc" id="sR"><option>S+</option><option>S</option><option selected>A</option><option>B</option></select></div></div><button class="ba bg" id="aS">ADD</button></div><div class="cd"><h3>LIST</h3><div class="il" id="sLi"></div></div></div>
+      <div class="pg" id="pg-projects"><h1 class="pt">PROJECTS</h1><div class="cd"><h3>ADD</h3><div class="fg"><label>TITLE</label><input class="fc" id="prT"/></div><div class="fg"><label>DESC</label><textarea class="fc" id="prD"></textarea></div><div class="fr"><div class="fg"><label>TECH</label><input class="fc" id="prTe"/></div><div class="fg"><label>ICON</label><input class="fc" id="prI" placeholder="fa-code"/></div></div><div class="fr"><div class="fg"><label>LIVE URL</label><input class="fc" id="prLk"/></div><div class="fg"><label>GITHUB</label><input class="fc" id="prGh"/></div></div><button class="ba bg" id="aP">ADD</button></div><div class="cd"><h3>LIST</h3><div class="il" id="pLi"></div></div></div>
+      <div class="pg" id="pg-certs"><h1 class="pt">CERTIFICATIONS</h1><div class="cd"><h3>ADD</h3><div class="fg"><label>TITLE</label><input class="fc" id="ceT"/></div><div class="fr"><div class="fg"><label>PROVIDER</label><input class="fc" id="cePr"/></div><div class="fg"><label>COURSES</label><input type="number" class="fc" id="ceCo" value="1" min="1"/></div></div><div class="fg"><label>CATEGORY</label><select class="fc" id="ceCa"><option value="pro">Professional</option><option value="spec">Specialization</option><option value="ai">AI</option><option value="sec">Security</option><option value="dev">Development</option><option value="other">Other</option></select></div><button class="ba bg" id="aCe">ADD</button></div><div class="cd"><h3>LIST (<span id="ceC">0</span>)</h3><div class="il" id="ceLi"></div></div></div>
+      <div class="pg" id="pg-tests"><h1 class="pt">TESTIMONIALS</h1><div class="cd"><h3>ADD</h3><div class="fr"><div class="fg"><label>NAME</label><input class="fc" id="tN"/></div><div class="fg"><label>INITIALS</label><input class="fc" id="tI" maxlength="2"/></div></div><div class="fr"><div class="fg"><label>COURSE</label><input class="fc" id="tC"/></div><div class="fg"><label>RATING</label><input type="number" class="fc" id="tR" min="1" max="5" value="5"/></div></div><div class="fg"><label>LINKEDIN</label><input class="fc" id="tLi"/></div><div class="fg"><label>FEEDBACK</label><textarea class="fc" id="tTx"></textarea></div><button class="ba bg" id="aTe">ADD</button></div><div class="cd"><h3>LIST</h3><div class="il" id="teLi"></div></div></div>
+      <div class="pg" id="pg-timeline"><h1 class="pt">TIMELINE</h1><div class="cd"><h3>ADD</h3><div class="fr"><div class="fg"><label>YEAR</label><input class="fc" id="tlY"/></div><div class="fg"><label>PHASE</label><input class="fc" id="tlP" placeholder="ARC 5"/></div></div><div class="fg"><label>TITLE</label><input class="fc" id="tlT"/></div><div class="fg"><label>DESC</label><textarea class="fc" id="tlD"></textarea></div><div class="fr"><div class="fg"><label>ICON</label><input class="fc" id="tlI" placeholder="fa-star"/></div><div class="fg"><label>COLOR</label><input type="color" class="fc" id="tlCo" value="#00e5ff"/></div></div><button class="ba bg" id="aTl">ADD</button></div><div class="cd"><h3>LIST</h3><div class="il" id="tlLi"></div></div></div>
+      <div class="pg" id="pg-settings"><h1 class="pt">SETTINGS</h1><div class="cd"><h3>PASSWORD</h3><div class="fg"><label>NEW</label><input type="password" class="fc" id="nP"/></div><button class="ba bs" id="cP">UPDATE</button></div><div class="cd"><h3>DATA</h3><div class="bgrp"><button class="ba bs" id="exB">EXPORT</button><button class="ba bd" id="rsB">RESET ALL</button></div></div><div class="cd"><h3>IMPORT</h3><div class="fg"><label>JSON</label><textarea class="fc" id="imD" style="min-height:100px;font-family:var(--fm);font-size:.65rem"></textarea></div><button class="ba bg" id="imB">IMPORT</button></div></div>
+    </main>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script src="js/data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
